@@ -7,22 +7,28 @@ import city.exception.PersonCheckException;
 import java.sql.*;
 
 public class PersonCheckDao {
-
     private static final String SQL_REQUEST =
             """
-                            SELECT temporal FROM city_register_address_person AS ap
-                            INNER JOIN city_register_person AS p ON p.person_id = ap.person_id
-                            INNER JOIN city_register_address AS a ON a.address_id = ap.address_id
-                            WHERE
-                            CURRENT_DATE >= ap.start_date
-                            and (CURRENT_DATE <= ap.end_date or ap.end_date is null)
-                            and UPPER(p.sur_name) = UPPER(?)
-                            and UPPER(p.given_name) = UPPER(?)
-                            and UPPER(p.patronymic) = UPPER(?)
-                            and p.date_of_birth = ?
-                            and a.street_code = ?
-                            and UPPER(a.building) = UPPER(?)  
-                    """;
+             SELECT temporal FROM city_register_address_person AS ap
+             INNER JOIN city_register_person AS p ON p.person_id = ap.person_id
+             INNER JOIN city_register_address AS a ON a.address_id = ap.address_id
+             WHERE
+             CURRENT_DATE >= ap.start_date
+             and (CURRENT_DATE <= ap.end_date or ap.end_date is null)
+             and UPPER(p.sur_name) = UPPER(?)
+             and UPPER(p.given_name) = UPPER(?)
+             and UPPER(p.patronymic) = UPPER(?)
+             and p.date_of_birth = ?
+             and a.street_code = ?
+             and UPPER(a.building) = UPPER(?)""";
+
+    public PersonCheckDao() {
+        try{
+            Class.forName("org.postgresql.Driver");
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
 
     public PersonResponse checkPerson(PersonRequest request) throws PersonCheckException {
         PersonResponse response = new PersonResponse();

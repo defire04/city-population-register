@@ -25,16 +25,16 @@ CREATE TABLE city_register_address(
     district_code INTEGER NOT NUll,
     street_code INTEGER NOT NULL,
     building VARCHAR(10) NOT NULL,
-    extension VARCHAR(10) NOT NULL,
-    apartment VARCHAR(10) NOT NUll,
+    extension VARCHAR(10),
+    apartment VARCHAR(10),
 
     PRIMARY KEY (address_id),
     FOREIGN KEY (district_code) REFERENCES city_register_district(district_code) ON DELETE RESTRICT,
     FOREIGN KEY (street_code) REFERENCES city_register_street(street_code) ON DELETE RESTRICT
 );
 INSERT INTO city_register_address(district_code, street_code, building, extension, apartment) VALUES
-(1, 1, '2', '6', '333') ;
-(1, 1, '271', null, '4') ;
+(1, 1, '2', '6', '333'),
+(1, 1, '271', null, '4');
 
 
 CREATE TABLE city_register_person(
@@ -52,9 +52,9 @@ CREATE TABLE city_register_person(
 );
 INSERT INTO city_register_person (sur_name, given_name, patronymic, date_of_birth, passport_series, passport_number,
 passport_date, certificate_number, certificate_date) VALUES
-('Соклов', 'Дмитрий', 'Романович', '2000-05-07', '1234','123456', '2018-06-13', null, null),
-('Соклова', 'София', 'Олеговна', '2001-09-10', '4321','654321', '2018-10-16', null, null),
-('Соклов', 'Максим', 'Дмитриевич', '2021-11-11', null,null, null, '1234', '2015-11-21');
+('Соколов', 'Дмитрий', 'Романович', '2000-05-07', '1234','123456', '2018-06-13', null, null),
+('Соколова', 'София', 'Олеговна', '2001-09-10', '4321','654321', '2018-10-16', null, null),
+('Соколов', 'Максим', 'Дмитриевич', '2021-11-11', null, null, null, '1234', '2015-11-21');
 
 
 CREATE TABLE city_register_address_person(
