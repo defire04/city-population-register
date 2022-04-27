@@ -1,20 +1,41 @@
 package city.web;
-
+import city.dao.PoolConnectionBuilder;
+import org.slf4j.Logger;
+import java.io.IOException;
+import java.time.LocalDate;
+import org.slf4j.LoggerFactory;
 import city.dao.PersonCheckDao;
 import city.domain.PersonRequest;
 import city.domain.PersonResponse;
-import city.exception.PersonCheckException;
-
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.annotation.WebServlet;
+import city.exception.PersonCheckException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.time.LocalDate;
+
 
 @WebServlet(name = "CheckPersonServlet", urlPatterns = {"/checkPerson"})
 public class CheckPersonServlet extends HttpServlet {
+
+
+
+    private static final Logger logger = LoggerFactory.getLogger(CheckPersonServlet.class);
+    private PersonCheckDao dao;
+
+
+    @Override
+    public void init() throws ServletException {
+        logger.info("SERVLET is created");
+        dao = new PersonCheckDao();
+        dao.setConnectionBuilder(new PoolConnectionBuilder());
+    }
+
+    @Override
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.service(req, resp);
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
@@ -32,7 +53,6 @@ public class CheckPersonServlet extends HttpServlet {
 
 
         try {
-            PersonCheckDao dao = new PersonCheckDao();
             PersonResponse ps = dao.checkPerson(personRequest);
 
             if(ps.isRegistered()){
